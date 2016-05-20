@@ -17,9 +17,11 @@
         "slim/php-view": "^2.0",
         "monolog/monolog": "^1.17",
         "pimax/fb-messenger-php": "dev-master",
-        "rmccue/requests": ">=1.0"
+        "rmccue/requests": ">=1.0",
+        "tgallice/fb-messenger-sdk": "^1.0@dev"
     },
     "autoload": {
         "psr-0": {"Requests": "library/"}
-    }
+    },
+    "minimum-stability": "dev"
 }
