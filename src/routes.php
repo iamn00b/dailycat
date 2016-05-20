@@ -92,20 +92,11 @@ $app->post('/webhook[/]', function ($req, $res, $args) {
                         "elements" => [array(
                           "title" => "First card",
                           "subtitle" => "Element #1 of an hscroll",
-                          "image_url" => "http://thecatapi.com/api/images/get?format=src&type=gif",
-                          "buttons" => [array(
-                            "type" => "web_url",
-                            "url" => "https://www.messenger.com/",
-                            "title" => "Web url"
-                          ), array(
-                            "type" => "postback",
-                            "title" => "Postback",
-                            "payload" => "Payload for first element in a generic bubble",
-                          )],
+                          "image_url" => "http://thecatapi.com/api/images/get?format=src&type=gif"
                         ),array(
                           "title" => "Second card",
                           "subtitle" => "Element #2 of an hscroll",
-                          "image_url" => "http://messengerdemo.parseapp.com/img/gearvr.png",
+                          "image_url" => "http://thecatapi.com/api/images/get?format=src&type=gif",
                           "buttons" => [array(
                             "type" => "postback",
                             "title" => "Postback",
