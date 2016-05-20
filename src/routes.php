@@ -90,18 +90,13 @@ $app->post('/webhook[/]', function ($req, $res, $args) {
                       "payload" => array(
                         "template_type" => "generic",
                         "elements" => [array(
-                          "title" => "First card",
+                          "title" => "First cat",
                           "subtitle" => "Element #1 of an hscroll",
-                          "image_url" => "http://thecatapi.com/api/images/get?format=src&type=gif"
+                          "image_url" => "http://thecatapi.com/api/images/get"
                         ),array(
-                          "title" => "Second card",
+                          "title" => "Second cat",
                           "subtitle" => "Element #2 of an hscroll",
-                          "image_url" => "http://thecatapi.com/api/images/get?format=src&type=gif",
-                          "buttons" => [array(
-                            "type" => "postback",
-                            "title" => "Postback",
-                            "payload" => "Payload for second element in a generic bubble",
-                          )],
+                          "image_url" => "http://thecatapi.com/api/images/get"
                         )]
                       )
                     )
