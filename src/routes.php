@@ -96,7 +96,7 @@ $app->post('/webhook[/]', function ($req, $res, $args) {
                         ),array(
                           "title" => "Second cat",
                           "subtitle" => "Element #2 of an hscroll",
-                          "image_url" => "http://thecatapi.com/api/images/get"
+                          "image_url" => "http://placekitten.com/200/300"
                         )]
                       )
                     )
