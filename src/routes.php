@@ -5,40 +5,8 @@
 //     // Sample log message
 //     $this->logger->info("Slim-Skeleton '/' route");
 
-//     // Render index view
-//     return $this->renderer->render($response, 'index.phtml', $args);
-// });
-// $messageData = array(
-//     "attachment" => array(
-//       "type" => "template",
-//       "payload" => array(
-//         "template_type" => "generic",
-//         "elements" => [array(
-//           "title" => "First card",
-//           "subtitle" => "Element #1 of an hscroll",
-//           "image_url" => "http://messengerdemo.parseapp.com/img/rift.png",
-//           "buttons" => [array(
-//             "type" => "web_url",
-//             "url" => "https://www.messenger.com/",
-//             "title" => "Web url"
-//           ), array(
-//             "type" => "postback",
-//             "title" => "Postback",
-//             "payload" => "Payload for first element in a generic bubble",
-//           )],
-//         ),array(
-//           "title" => "Second card",
-//           "subtitle" => "Element #2 of an hscroll",
-//           "image_url" => "http://messengerdemo.parseapp.com/img/gearvr.png",
-//           "buttons" => [array(
-//             "type" => "postback",
-//             "title" => "Postback",
-//             "payload" => "Payload for second element in a generic bubble",
-//           )],
-//         )]
-//       )
-//     )
-// );
+use Tgallice\FBMessenger\Messenger;
+use Tgallice\FBMessenger\Message\Message;
 
 $app->get('/webhook[/]', function ($req, $res, $args) {
     $query = $req->getQueryParams();
@@ -83,37 +51,43 @@ $app->post('/webhook[/]', function ($req, $res, $args) {
         if (isset($event['message']) && isset($event['message']['text'])) {
             $this->logger->info("receive text message : \"". $event['message']['text'] . "\"");
             try {
-                $message = array( 'text' => 'This is a simple echo message: ' . $event['message']['text'] );
-                $messageData = array(
-                    "attachment" => array(
-                      "type" => "template",
-                      "payload" => array(
-                        "template_type" => "generic",
-                        "elements" => [array(
-                          "title" => "First cat",
-                          "subtitle" => "Element #1 of an hscroll",
-                          "image_url" => "http://thecatapi.com/api/images/get"
-                        ),array(
-                          "title" => "Second cat",
-                          "subtitle" => "Element #2 of an hscroll",
-                          "image_url" => "http://placekitten.com/200/300"
-                        )]
-                      )
-                    )
-                );
-                $headers = array('Content-Type' => 'application/json');
-                $data = array(
-                    'recipient' => array( 'id' => $sender),
-                    'message' => $messageData
-                );
-                $options = array(
-                    'access_token' => $this->get('settings')['token']
-                );
-                $url = 'https://graph.facebook.com/v2.6/me/messages?access_token='.$options['access_token'];
+                // $message = array( 'text' => 'This is a simple echo message: ' . $event['message']['text'] );
+                // $messageData = array(
+                //     "attachment" => array(
+                //       "type" => "template",
+                //       "payload" => array(
+                //         "template_type" => "generic",
+                //         "elements" => [array(
+                //           "title" => "First cat",
+                //           "subtitle" => "Element #1 of an hscroll",
+                //           "image_url" => "http://thecatapi.com/api/images/get"
+                //         ),array(
+                //           "title" => "Second cat",
+                //           "subtitle" => "Element #2 of an hscroll",
+                //           "image_url" => "http://placekitten.com/200/300"
+                //         )]
+                //       )
+                //     )
+                // );
+                // $headers = array('Content-Type' => 'application/json');
+                // $data = array(
+                //     'recipient' => array( 'id' => $sender),
+                //     'message' => $messageData
+                // );
+                // $options = array(
+                //     'access_token' => $this->get('settings')['token']
+                // );
+                // $url = 'https://graph.facebook.com/v2.6/me/messages?access_token='.$options['access_token'];
 
-                $response = Requests::post($url, $headers, $data);
-                $this->logger->info("send text message object to: ". $url);
-                $this->logger->info("send text message object : ". json_encode($response));
+                // $response = Requests::post($url, $headers, $data);
+                // $this->logger->info("send text message object to: ". $url);
+                // $this->logger->info("send text message object : ". json_encode($response));
+
+                $messenger = new Messenger($this->get('settings')['token']);
+                $message = new Message($sender, 'My Message');
+                $response = $messenger->sendMessage($message);
+
+                
             } catch (Exception $e) {
                 $this->logger->info("error sending text message object : ". json_encode($e));
             }
