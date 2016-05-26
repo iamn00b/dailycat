@@ -39,11 +39,13 @@ $app->get('/test[/]', function($req, $res, $args) {
 
     // $response = Requests::post($url, $headers, $data, $options);
     // var_dump($response->body);
-  $catresponse = Requests::get('http://thecatapi.com/api/images/get?format=xml&type=gif');
+  $catresponse = Requests::get('http://thecatapi.com/api/images/get?format=xml&type=png');
   $parser = xml_parser_create();
   xml_parse_into_struct($parser, $catresponse->body, $vals, $index);
   xml_parser_free($parser);
-  return $res->withJson($vals[4]['value']);
+  $cat_url = $vals[4]['value'];
+  $image = new Image($cat_url);
+  return $res->withJson(var_dump($image));
 });
 
 $app->post('/webhook[/]', function ($req, $res, $args) {
@@ -91,7 +93,7 @@ $app->post('/webhook[/]', function ($req, $res, $args) {
 
                 $messenger = new Messenger($this->get('settings')['token']);
 
-                $catresponse = Requests::get('http://thecatapi.com/api/images/get?format=xml&type=gif');
+                $catresponse = Requests::get('http://thecatapi.com/api/images/get?format=xml&type=png');
                 $parser = xml_parser_create();
                 xml_parse_into_struct($parser, $catresponse->body, $vals, $index);
                 xml_parser_free($parser);
