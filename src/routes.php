@@ -84,10 +84,11 @@ $app->post('/webhook[/]', function ($req, $res, $args) {
                 // $this->logger->info("send text message object : ". json_encode($response));
 
                 $messenger = new Messenger($this->get('settings')['token']);
-                $message = new Message($sender, 'My Message');
+                $catresponse = Requests::get('http://thecatapi.com/api/images/get?format=src&type=gif');
+                $message = new Message($sender, $catresponse);
                 $response = $messenger->sendMessage($message);
 
-                
+
             } catch (Exception $e) {
                 $this->logger->info("error sending text message object : ". json_encode($e));
             }
