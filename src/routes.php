@@ -25,19 +25,24 @@ $app->get('/webhook[/]', function ($req, $res, $args) {
 });
 
 $app->get('/test[/]', function($req, $res, $args) {
-    $message = array( 'text' => 'This is a simple text message.' );
-    $headers = array('Content-Type' => 'application/json');
-    $data = array(
-        'recipient' => array( 'id' => 'sender'),
-        'message' => $message
-    );
-    $options = array(
-        'access_token' => $this->get('settings')['token']
-    );
-    $url = 'https://graph.facebook.com/v2.6/me/messages?access_token='.$options['access_token'];
+    // $message = array( 'text' => 'This is a simple text message.' );
+    // $headers = array('Content-Type' => 'application/json');
+    // $data = array(
+    //     'recipient' => array( 'id' => 'sender'),
+    //     'message' => $message
+    // );
+    // $options = array(
+    //     'access_token' => $this->get('settings')['token']
+    // );
+    // $url = 'https://graph.facebook.com/v2.6/me/messages?access_token='.$options['access_token'];
 
-    $response = Requests::post($url, $headers, $data, $options);
-    var_dump($response->body);
+    // $response = Requests::post($url, $headers, $data, $options);
+    // var_dump($response->body);
+  $catresponse = Requests::get('http://thecatapi.com/api/images/get?format=xml&type=gif');
+  $parser = xml_parser_create();
+  xml_parse_into_struct($parser, $catresponse->body, $vals, $index);
+  xml_parser_free($parser);
+  return $res->withJson($vals[4]['value']);
 });
 
 $app->post('/webhook[/]', function ($req, $res, $args) {
@@ -84,8 +89,14 @@ $app->post('/webhook[/]', function ($req, $res, $args) {
                 // $this->logger->info("send text message object : ". json_encode($response));
 
                 $messenger = new Messenger($this->get('settings')['token']);
-                $catresponse = Requests::get('http://thecatapi.com/api/images/get?format=src&type=gif');
-                $message = new Message($sender, $catresponse);
+
+                $catresponse = Requests::get('http://thecatapi.com/api/images/get?format=xml&type=gif');
+                $parser = xml_parser_create();
+                xml_parse_into_struct($parser, $catresponse->body, $vals, $index);
+                xml_parser_free($parser);
+                $cat_url = $vals[4]['value'];
+
+                $message = new Message($sender, $cat_url);
                 $response = $messenger->sendMessage($message);
 
 
