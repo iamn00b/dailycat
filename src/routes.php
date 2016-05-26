@@ -7,6 +7,7 @@
 
 use Tgallice\FBMessenger\Messenger;
 use Tgallice\FBMessenger\Message\Message;
+use Tgallice\FBMessenger\Attachment\Image;
 
 $app->get('/webhook[/]', function ($req, $res, $args) {
     $query = $req->getQueryParams();
@@ -95,8 +96,9 @@ $app->post('/webhook[/]', function ($req, $res, $args) {
                 xml_parse_into_struct($parser, $catresponse->body, $vals, $index);
                 xml_parser_free($parser);
                 $cat_url = $vals[4]['value'];
+                $image = new Image($cat_url);
 
-                $message = new Message($sender, $cat_url);
+                $message = new Message($sender, $image);
                 $response = $messenger->sendMessage($message);
 
 
